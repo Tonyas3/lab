@@ -1,0 +1,1588 @@
+1ый вопрос в билете
+1.	Протокол HTTP, основные свойства HTTP, структура запроса и ответа. Протокол HTTPS. Понятие web-приложения, структура и принципы  работы web-приложения. Понятие асинхронности.
+HTTP — широко распространённый протокол передачи данных, изначально предназначенный для передачи гипертекстовых документов (то есть документов, которые могут содержать ссылки, позволяющие организовать переход к другим документам).
+Аббревиатура HTTP расшифровывается как HyperText Transfer Protocol, «протокол передачи гипертекста». В соответствии со спецификацией OSI, HTTP является протоколом прикладного (верхнего, 7-го) уровня. 
+Протокол HTTP предполагает использование клиент-серверной структуры передачи данных. Клиентское приложение формирует запрос и отправляет его на сервер, после чего серверное программное обеспечение обрабатывает данный запрос, формирует ответ и передаёт его обратно клиенту.
+HTTP: основные свойства 
+- версии HTTP/1.1 – действующий (текстовый), HTTP/2 – черновой (не распространен, бинарный); 
+- два типа абонентов: клиент и сервер;
+- два типа сообщений: request и response;
+- от клиента к серверу – request;
+- от сервера к клиенту – response;
+- на один request всегда один response, иначе ошибка;
+- одному response всегда один request,  иначе ошибка; 
+- TCP-порты: 80, 443;
+- для адресации используется URI или URN;
+- поддерживается W3C, описан в нескольких RFC.(RFC2616)
+Request:
+- метод передачи;
+- URL -адрес, к которому нужно обратиться;
+- версия протокола (HTTP/1.1);
+- заголовки (пары: имя/заголовок) описывают тело сообщений;
+- параметры (пары: имя/заголовок);
+- расширение.
+Response:
+- версия протокола (HTTP/1.1);
+- код состояния (1xx, 2xx, 3xx, 4xx, 5xx); (1xx: информационные сообщения; 2xx: успешный ответ; 3xx: переадресация; 4xx: ошибка клиента; 5xx: ошибка сервера)
+- пояснение к коду состояния;
+- заголовки (пары: имя/заголовок);
+- расширение.
+Response: Код состояния:
+- 1xx: информационные сообщения;
+- 2xx: успешный ответ;
+- 3xx: переадресация;
+- 4xx: ошибка клиента;
+- 5xx: ошибка сервера.
+HTTPS (аббр. от англ. HyperText Transfer Protocol Secure) — расширение протокола HTTP для поддержки шифрования в целях повышения безопасности. Данные в протоколе HTTPS передаются поверх криптографических протоколов TLS. В отличие от HTTP с TCP-портом 80, для HTTPS по умолчанию используется TCP-порт 443.
+клиент-серверное приложение, у которого клиент и сервер взаимодействуют по протоколу HTTP называется web-приложением. когда говорят о разработке web-приложения, говорят о разработке frontend (клиента) и backend (сервера).
+Понятие асинхронности: операция называется асинхронной, если ее выполнение  осуществляется в 2 фазы: 1) заявка на исполнение; 2) получение результата; при этом участвуют два механизма: A-механизм, формирующий заявку и потом  получающий результат; B-механизм, получающий заявку от A, исполняющий операцию и отправляющий результат A; продолжительность исполнения операции B-механизмом, как правило, непредсказуемо; в то время пока B-механизм исполняет операцию, А-механизм выполняет собственную работу. Применение асинхронности не противоречит применению многопоточности.
+HTTP-аутентификация (Basic, Digest, Forms).
+Идентификация — процесс определения, что за человек перед нами. 
+Аутентификация — процесс подтверждения, что этот человек именно тот, за кого себя выдает
+Авторизация — процесс принятия решения о том, что именно этой аутентифицированной персоне разрешается делать.
+Basic — наиболее простая схема, при которой username и password пользователя передаются в заголовке Authorization в незашифрованном виде (base64-encoded). Однако при использовании HTTPS (HTTP over SSL) протокола, является относительно безопасной.
+Digest — challenge-response-схема, при которой сервер посылает уникальное значение nonce, а браузер передает MD5 хэш пароля пользователя, вычисленный с использованием указанного nonce. Более безопасная альтернативв Basic схемы при незащищенных соединениях, но подвержена man-in-the-middle attacks (с заменой схемы на basic). Кроме того, использование этой схемы не позволяет применить современные хэш-функции для хранения паролей пользователей на сервере.
+Form - Работает это по следующему принципу: в веб-приложение включается HTML-форма, в которую пользователь должен ввести свои username/password и отправить их на сервер через HTTP POST для аутентификации. В случае успеха веб-приложение создает session token, который обычно помещается в browser cookies. При последующих веб-запросах session token автоматически передается на сервер и позволяет приложению получить информацию о текущем пользователе для авторизации запроса.
+Протокол HTTPS. Протокол TSL. Сертификаты. Взаимодействие  центра сертификации и владельца защищенного ресурса.   
+HTTPS (аббр. от англ. HyperText Transfer Protocol Secure) — расширение протокола HTTP для поддержки шифрования в целях повышения безопасности. Данные в протоколе HTTPS передаются поверх криптографических протоколов TLS. В отличие от HTTP с TCP-портом 80, для HTTPS по умолчанию используется TCP-порт 443.
+Сертификат X.509: стандартный формат хранения и  транспортировки  атрибутов безопасности; главное – открытый ключ; сертификаты выдают центры сертификации; сертификат содержит:  имя держателя, адрес, серийный номер сертификата,  даты проверки, открытый ключ держателя. 
+TLS: 1) обеспечивает конфиденциальность; 2) обеспечивает целостность (обнаружение подмены); 3) аутентификация узлов (проверка подлинности источника сообщений); поверх потокового надежного соединения (для ненадежной передачи есть DTSL); Пересылает записи.
+TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+ECDHE -  Диффи-Хеллман на эллиптических кривых для вычисления общего секрета;
+ECDSA -     аутентификация данных на этапе установления соединения на основе цифровой подписи на эллиптических кривых;
+AES_128 – шифрование полезной нагрузки с помощью алгоритма AES с 128-битным ключом в режиме GCM;
+SHA256  - для хеширования применяется алгоритм SHA с 256-битным ключом. 
+TLS: Схема работы  
+Клиент выдает запрос серверу (Client Hello). 
+Сервер подписывает свой сертификат и высылает клиенту (Server Hello). 
+Клиент проверяет сертификат в центре сертификации, которому доверяет. 
+Клиент  сравнивает данные сертификата с информацией центра сертификации.
+Клиент сообщает серверу, какие ключи шифрования он поддерживает. 
+Сервер выбирает подходящую длину ключа.
+Клиент генерирует симметричный ключ, шифрует его открытым ключом. 
+Сервер получает симметричный ключ и расшифровывает его.
+Протокол WebSockets, основные свойства, процедура установки соединения. WebSockets API.  
+WebSocket — протокол связи поверх TCP-соединения, предназначенный для обмена сообщениями между браузером и веб-сервером в режиме реального времени.  Он позволяет пересылать любые данные, на любой домен, безопасно и почти без лишнего сетевого трафика.
+WebSocket представляет собой альтернативу HTTP, его можно применять для организации обмена данными в веб-приложениях. Этот протокол позволяет создавать долгоживущие двунаправленные каналы связи между клиентом и сервером. После установления соединения канал связи остаётся открытым, что даёт в распоряжение приложения очень быстрое соединение, характеризующееся низкими задержками и небольшой дополнительной нагрузкой на систему. Протокол WebSocket поддерживают все современные браузеры.
+HTTP и WebSocket — это очень разные протоколы, в которых используются различные подходы к обмену данными. HTTP основан на модели «запрос — ответ»: сервер отправляет клиенту некие данные после того, как они будут запрошены. В случае с WebSocket всё устроено иначе. А именно:
+Сервер может отправлять сообщения клиенту по своей инициативе, не дожидаясь поступления запроса от клиента.
+Клиент и сервер могут обмениваться данными одновременно.
+Протокол WebSocket очень хорошо подходит для организации связи в режиме реального времени по каналам, которые долго остаются открытыми. HTTP, в свою очередь, отлично подходит для организации эпизодических сеансов связи, инициируемых клиентом. В то же время надо отметить, что, с точки зрения программирования, реализовать обмен данными по протоколу HTTP гораздо проще, чем по протоколу WebSocket.
+Каналы связи:
+1)	Дуплексный – одновременно и прием, и передача (TCP, WebSocket)
+2)	Полудуплексный – одноврем.только прием или только передача (HTTP)
+Взаимод.с потоками:
+	Канал соед.м.представить в виде дуплексн.потока => м.и чит., и пис.д-е одноврем.
+	Поток – абстракция, кри.позвол представить д-е в виде потока байт.
+Механизм ping/pong – механизм для проверки соед.
+	*С посыл.сообщ ping для проверки соед., К.должен ответить сообщ pong
+	*делаем к С ping , C возвращ.pong
+RPC (remote procedure call) – удаленный вызов процедур
+	- это технология, кот.позвол.прогам вызыв.процедуры и ф-ции в др.адресном пр-ве (как правило на удал.ПК). Т.е.на С генер.методы, а К их вызыв.
+	*npm install rpc-websockets	
+
+Rpc-сервер 		*в кач-ве трансорта исп. WS
+			*регестрир.удал процедуру
+				(имя, ф-ция, .public()/.protected)
+
+*Если public – клиент не завершается
+*Если protected – требует аутентификации (логин/пароль)
+
+Процесс установки соед:
+Upgrade – К просит С переключится на новый протокол (WebSocket)
+Процесс «рукопожатия» - процесс установки соед по новому протоколу:
+	К посыл обычный HTTP-запрос на С с заголовком upgrade кот сообщ.С, что К хочет устан.WS-соед.
+
+Разработка простейшего HTTP-сервера в Node.js. Извлечение данных из HTTP-запроса, формирование данных HTTP-ответа.  Пример. Тестирование с помощью браузера AJAX (XMLHTTPRequest/Fetch). 
+Чтобы создать сервер, следует вызвать метод http.createServer():
+const http = require("http");
+http.createServer().listen(3000);
+Метод createServer() возвращает объект http.Server. Но чтобы сервер мог прослушивать и обрабатывать входящие подключения, у объекта сервера необходимо вызвать метод listen(), в который в качестве параметра передается номер порта, по которому запускается сервер. Для обработки подключений в метод createServer можно передать специальную функцию:
+const http = require("http");
+http.createServer(function(request, response){
+    response.end("Hello world!");
+}).listen(3000);
+Эта функция принимает два параметра:
+    request: хранит информацию о запросе
+    response: управляет отправкой ответа
+
+index.js
+var http = require('http');
+var fs = require('fs');
+
+http.createServer(function (request,response) {
+    if (request.url==='/api/name')
+    {
+        response.writeHead(200, {'content-Type': 'text/plain; charset=utf-8'});
+        response.end('Antanovich Tatsiana Alexandrovna');
+    }
+
+    if (request.url==='/xmlhttprequest') {
+        let html = fs.readFileSync('./xmlhttprequest.html');
+        response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        response.end(html);
+    }
+    if (request.url==='/fetch') {
+        let html = fs.readFileSync('./fetch.html');
+        response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        response.end(html);
+    }
+
+}).listen(5000);
+
+console.log('Server running at http://localhost:5000');
+
+fetch.html
+<html>
+   <head>
+        <meta charset="UTF-8">
+        <title>Fetch</title>
+    </head>
+    <body onload="init()">
+        <div id="full-name"></div>
+    
+        <script>
+            function init() {
+                let settings = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    }
+                };
+        
+                fetch('http://localhost:5000/api/name', settings) 
+                .then(async response => {
+                    document.getElementById('full-name').innerHTML = await response.text();
+                });
+            }
+        </script>
+    </body>
+</html>
+xmlhttprequest.html
+<html>
+   <head>
+        <meta charset="UTF-8">
+        <title>XmlHttpRequest</title>
+    </head>
+    <body onload="init()">
+        <div id="full-name"></div>
+        <script>
+            function init() {
+                let request = new XMLHttpRequest();
+                request.open('GET', 'http://localhost:5000/api/name', true);
+                request.onreadystatechange = () => {
+                    if (request.readyState === 4) {
+                        if (request.status === 200) {
+                            console.log('OK. ' + request.responseText);
+                            document.getElementById('full-name').innerHTML = request.responseText;
+                        } else {
+                            console.log('nope.\n' + request.statusCode);
+                        }
+                    }
+                };
+                request.send(null);
+            }
+        </script>
+    </body>
+</html>
+
+Разработка HTTP-сервера в Node.js. Обработка GET, POST, PUT и DELETE-запросов.  Генерация ответа с кодом 404. Пример. Тестирование с помощью POSTMAN. 
+index.js
+var http = require('http');
+
+let error = (request, response) =>{
+    console.log('error: HTTP status 404');
+    response.end('error:HTTP status 404');
+};
+
+let debug_handler = (request,response)=>{
+console.log('Hello');
+response.end('Hello');
+};
+
+let GET_handler = (request, response) => {
+switch(request.url){
+    case '/get': debug_handler(request,response); break;
+    default: error(request,response);}
+};
+let POST_handler = (request, response) => {
+    switch(request.url){
+        case '/post': debug_handler(request,response); break;
+        default: error(request,response);}
+};
+let PUT_handler = (request, response) => {
+    switch(request.url){
+        case '/put': debug_handler(request,response); break;
+        default: error(request,response);}
+};
+let DELETE_handler = (request, response) => {
+    switch(request.url){
+        case '/delete': debug_handler(request,response); break;
+        default: error(request,response);}
+};
+
+
+let http_handler = (request, response) => {
+    switch (request.method) {
+        case 'GET':
+            GET_handler(request, response);
+            break;
+        case 'POST':
+            POST_handler(request, response);
+            break;
+        case 'PUT':
+            PUT_handler(request, response);
+            break;
+        case 'DELETE':
+            DELETE_handler(request, response);
+            break;
+        default:
+            error(request, response);
+            break;
+    }
+};
+
+let server = http.createServer();
+server.listen(3000,(v)=>{console.log('server listen http://localhost:3000')}).on('error',(e)=>{console.log('server listen http://localhost:3000: error: ', e.code)}).on('request', http_handler);
+
+Разработка HTTP-сервера в Node.js. Обработка запросов к статическим ресурсам:  html, css, js, png, msword.  Пример. Тестирование с помощью браузера.
+index.js
+var http = require('http');
+var fs = require('fs');
+
+http.createServer(function (request,response) {
+    if (request.url==='/html') {
+        let html = fs.readFileSync('./index.html');
+        response.writeHead(200, {'content-Type': 'text/html; charset=utf-8'});
+        response.end(html);
+    }
+    if (request.url === '/png') {
+        fs.stat('./image.png', (err, stat) => {
+            jpg = fs.readFileSync('./image.png');
+            response.writeHead(200, {'Content-Type': 'image/jpeg', 'Content-Length': stat.size});
+            response.end(jpg, 'binary');
+        });
+    }
+    if (request.url==='/msword') {
+        let html = fs.readFileSync('./doc.docx');
+        response.writeHead(200, {'content-Type': 'application/msword'});
+        response.end(html);
+    }
+    if (request.url==='/css') {
+        let html = fs.readFileSync('./index.css');
+        response.writeHead(200, {'content-Type': 'text/css; charset=utf-8'});
+        response.end(html);
+    }
+    if (request.url==='/js') {
+        let html = fs.readFileSync('./indexx.js');
+        response.writeHead(200, {'content-Type': 'text/javascript; charset=utf-8'});
+        response.end(html);
+    }
+
+}).listen(5000);
+
+console.log('Server running at http://localhost:5000');
+indexx.js
+alert( 'Привет, мир!' );
+index.css
+h2 {
+    color: #a52a2a; /* Цвет заголовка */
+    font-size: 24pt; /* Размер шрифта в пунктах */
+    font-family: Georgia, Times, serif; /* Семейство шрифтов */
+    font-weight: normal; /* Нормальное начертание текста  */
+}
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2> FIT 3 course 4 group Antanovich Tatsiana Alexandrovna</h2>
+</body>
+</html>
+Разработка HTTP-сервера в Node.js. Обработка query-параметров GET-запроса. Пример. Тестирование с помощью браузера.
+Одним из способов передачи данных в приложение представляет использование параметров строки запроса. Строка запроса (query) - фактически это часть запрошенного адреса, которая идет после знака вопроса. Например, в запросе http://localhost:3000/about?id=3&name=Tome часть id=3&name=Tome представляет строку запроса.
+index.js
+var http =require('http');
+var url = require('url');
+var querystring= require('querystring');
+//http://localhost:3000/gfjk/?d=f&k=lm/gfjo;p
+let handler=(req,res)=>{
+    if(req.method = 'GET'){
+        let path = url.parse(req.url).pathname;
+
+        let p = url.parse(req.url,true);
+        let result=' ';
+        let q = p.query;
+        if(!(p.pathname === '/')){
+            result= 'href:' + p.href + '<br/>' +
+                'path:' + p.path +'<br/>' +
+                'pathname:' +p.pathname +'<br/>' +
+                'search:' + p.search + '<br/>';
+        }
+        res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
+        res.write('<h1>GET-параметры</h1>');
+        res.end(result);
+    }
+    else{
+        res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
+        res.end('for other http-methods not so');
+    }
+}
+
+let server = http.createServer();
+server.listen(3000, (v)=>{console.log('http://localhost:3000')})
+.on('error', (e)=>{console.log('http://localhost:3000: error: ',e.code)})
+    .on('request',handler);
+
+Разработка HTTP-сервера в Node.js. Обработка uri-параметров GET-запроса. Пример. Тестирование с помощью браузера.
+index.js
+var http =require('http');
+var url = require('url');
+var querystring= require('querystring');
+//http://localhost:3000/bstu/it/poit/4
+let handler=(req,res)=>{
+    if(req.method = 'GET'){
+        let p = url.parse(req.url,true);
+        let result=' ';
+        let q = p.query;
+        if(!(p.pathname === '/')){
+            result= 'pathname:' +p.pathname +'<br/>';
+            decodeURI(p.pathname).split('/').forEach(e=>{result+=e+'<br/>'});
+        }
+        console.log(p.pathname.split('/'));
+        res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
+        res.write('<h1>URL-параметры</h1>');
+        res.end(result);
+    }
+    else{
+        res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
+        res.end('for other http-methods not so');
+    }
+}
+
+let server = http.createServer();
+server.listen(3000, (v)=>{console.log('http://localhost:3000')})
+    .on('error', (e)=>{console.log('http://localhost:3000: error: ',e.code)})
+    .on('request',handler);
+
+Разработка HTTP-сервера в Node.js. Обработка параметров POST-запроса. Пример. Тестирование с помощью браузера (<form>) и POSTMAN.
+index.js
+let http = require('http');
+let url = require('url');
+let fs = require('fs');
+const {parse} = require('querystring');
+//postman
+//body
+//x-www-form-urlencoded
+//ввести значения
+
+//открыть 16form.html
+//при нажатии на кнопку перенаправится само
+
+http.createServer((req, res)=>{
+    if(req.method = 'POST'){
+        let body='';
+        let result='<br/>';
+        req.on('data',chunk=>{body+=chunk.toString();});
+        req.on('end',()=>{
+            console.log(body);
+            let o = parse(body);
+            for(let key in o) {result+=`${key}=${o[key]}<br/>`}
+            res.writeHead(200,{'Content-Type': 'text/html;charset=utf-8'});
+            res.end(result);})
+    }
+    else{
+        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
+        res.end('no other http-method not so');
+    }
+}).listen(5000);
+form.html
+<body>
+    <h1> EXAM </h1>
+    <div style="margin: 20px; width: 800px; padding:5px">
+
+        <form action="http://localhost:5000/formpost" method="POST">
+            Text:<input type="text" name="text"/><br/>
+            Number:<input type="number" name="number"/><br/>
+            <input type='submit' name="submit" value="submit1"/>
+        </form>
+
+    </div>
+</body>
+<!--форма - uri-программа
+2 способа: enter на поле или input type='submit'-->>
+
+Разработка HTTP-сервера в Node.js. Обработка  json-сообщения в POST-запросе. Пример. Тестирование с помощью POSTMAN.
+index.js
+let http = require('http');
+/*[{
+	"m":"tony",
+	"x":1,
+	"y":2
+}]*/
+http.createServer((req, res)=>{
+    if(req.method = 'POST'){
+        let result='';
+        let body='';
+        req.on('data',chunk=>{body+=chunk.toString();});
+        req.on('end',()=>{
+            console.log(body);
+            let os = JSON.parse(body);
+            result={
+                m:os[0].m,
+                x:os[0].x,
+                y:os[0].y,
+                length_m: os[0].m.length,
+                sum:os[0].x+os[0].y
+            };
+            res.writeHead(200,{'Content-Type': 'application/json'});
+            console.log(result);
+             res.end(JSON.stringify(result));
+        });
+    }
+    else{
+        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
+        res.end('no other http-method not so');
+    }
+}).listen(3000);
+console.log('localhost:3000');
+
+1.	Разработка HTTP-сервера в Node.js. Пересылка файла    в POST-запросе (upload). Пример. Тестирование с помощью браузера.
+index.js
+var http = require('http');
+var fs = require('fs');
+const dir = './files/';
+
+let handler = (req,res) => {
+    if (req.method == 'GET') {
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(fs.readFileSync(dir + 'webform.html'));
+    }
+    else if (req.method == 'POST') {
+     let result = ' ';
+     req.on('data',(data)=>{result+=data;})
+        req.on('end', () =>{
+            res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+            res.write('<h1>File upload</h1>');
+            res.end(result);
+        })
+    }
+    else{
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end('for other http-methods not so');
+    }
+}
+    let server = http.createServer();
+    server.on('request', handler);
+    server.listen(3000);
+
+    console.log('Server running on http://localhost:3000/');
+files/webform.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Webform</title>
+</head>
+<body>
+   <form enctype="multipart/form-data" method="post" action="/">
+
+       <div class="row">
+          <input class="col-5 offset-2" name="file" type="file" style="padding: 0px; border: 1px solid gray"/>
+       </div>
+       <div class="row">
+           <input class="col-5 offset-2" name="upload" type="submit" value="Ok"/>
+       </div>
+    </form>
+</body>
+</html>
+
+Разработка HTTP-сервера в Node.js. Пересылка файла в ответе (download). Пример. Тестирование  помощью браузера.
+index.js
+let http=require('http');
+let url = require('url');
+const fs = require('fs');
+
+let server = http.createServer(function(request,response){
+    const picPath = '11.png';
+    if (request.url === "/png") {
+        fs.stat(picPath, (err, stat) => {
+            if (err) { console.log('error:' + err.message); }
+            else {
+                png = fs.readFile(picPath, (err, data) => {
+                   response.contentType = 'image/png';
+                    response.contentLength = stat.size;
+                    response.end(data);
+                });
+            }
+        })
+    }
+})
+
+server.listen(3000,(v)=>{console.log("SERVER.LISTEN(3000)")})
+
+1.	Разработка HTTP-клиента в Node.js.  Оправка GET запроса с query-параметрами.  Пример. Тестирование с помощью с Node.js-сервера.   
+server.js
+const http = require('http');
+
+http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-Type':'text/html, charset=utf-8'});
+    req.on('data', (chunk) => {
+        res.write(chunk.toString('utf-8'));
+    });
+    req.on('end', () => {
+        res.end();
+    });
+}).listen(3000);
+
+console.log('Server running on http://localhost:3000/');
+client.js
+const http = require('http');
+const querystring = require('querystring');
+
+let parms = querystring.stringify({x: 3, y: 4});
+let path = `/mypath?${parms}`;
+
+console.log('parms', parms);
+console.log('path', path);
+
+let options = {
+    host: 'localhost',
+    path: path,
+    port: 3000,
+    method: 'GET'
+};
+
+const req = http.request(options, (res) => {
+    console.log('http.request: statusCode: ', res.statusCode);
+});
+
+req.on('error', (err) => {
+    console.log('http.request: error: ', err.message);
+});
+
+req.end();
+config.json
+{
+  "server": {
+    "host": "localhost",
+    "port": 3000
+  }
+}
+
+Разработка HTTP-клиента в Node.js.  Оправка POST-запроса с параметрами в теле.  Пример. Тестирование с помощью с Node.js-сервера.
+server.js
+const http = require('http');
+
+http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-Type':'text/html, charset=utf-8'});
+    req.on('data', (chunk) => {
+        res.write(chunk.toString('utf-8'));
+    });
+    req.on('end', () => {
+        res.end();
+    });
+}).listen(3000);
+
+console.log('Server running on http://localhost:3000/');
+client.js
+const http = require('http');
+const querystring = require('querystring');
+
+let parms = querystring.stringify({x: 3, y: 4, s: 'xxx'});
+
+console.log('parms', parms);
+
+let options = {
+    host: 'localhost',
+    path: '/mypath',
+    port: 3000,
+    method: 'POST'
+};
+
+const req = http.request(options, (res) => {
+    console.log('http.request: statusCode: ', res.statusCode);
+
+    let data = '';
+
+    res.on('data', (chunk) => {
+        console.log('http.request: data: body: ', data += chunk.toString('utf8'));
+    });
+
+    res.on('end', () => {
+        console.log('http.request: end: body: ', data);
+    });
+});
+
+req.on('error', (err) => {
+    console.log('http.request: error: ', err.message);
+});
+
+req.write(parms);
+
+req.end();
+
+Разработка HTTP-клиента в Node.js.  Оправка POST-запроса с json-сообщением.  Пример. Тестирование с помощью с Node.js-сервера.
+server.js
+var http = require('http');
+var url = require('url');
+
+
+let http_handler=(req,res)=>
+{
+    if(req.method=='POST')
+    {
+		if(url.parse(req.url).pathname=== '/JSON')
+		{
+			let result='';
+			let body='';
+			req.on('data',chunk=>{body+=chunk.toString();});
+			req.on('end',()=>{
+				let os = JSON.parse(body);
+				console.log(os);
+				result={
+					__comment:"Ответ.",
+					x_plus_y:os.x+os.y,
+					Concatination_s_o:os.s+'.'+os.o.surname+","+os.o.name,
+					Length_m:os.m.length
+				};
+				res.writeHead(200,{'Content-Type': 'application/json'});
+				console.log(result);
+				res.end(JSON.stringify(result));
+			});
+			}
+    }
+}
+http.createServer(function (req, res){http_handler(req,res);
+}).listen(5000);
+client.js
+var http =require('http');
+let parms=JSON.stringify(
+    {
+        "__comment": "Запрос.",
+        "x": 1,
+        "y": 2,
+        "s": "Сообщение",
+        "m": ["a","b","c","d"],
+        "o": {"surname":"Антонович","name":"Таня"}
+    }
+);
+
+let options= {
+    host: 'localhost',
+    path: `/JSON`,
+    port: 5000,
+    method:'POST',
+    headers:{'content-type':'application/json', 'accept':'application/json'}
+}
+const req = http.request(options,(res)=> {
+    console.log('statusCode: ',res.statusCode);
+    let data = '';
+    res.on('data',(chunk) => { data+=chunk.toString('utf-8') });
+    res.on('end',()=>{console.log(JSON.parse(data))}); 
+});
+req.on('error', (e)=> {console.log('http.request: error:', e.message);});
+req.write(parms);
+req.end();
+
+Разработка HTTP-клиента в Node.js. Обработка json-ответа. Пример. Тестирование с помощью с Node.js-сервера.  
+server.js
+var http = require('http');
+var url = require('url');
+
+
+let http_handler=(req,res)=>
+{
+    if(req.method=='POST')
+    {
+		if(url.parse(req.url).pathname=== '/JSON')
+		{
+			let result='';
+			let body='';
+			req.on('data',chunk=>{body+=chunk.toString();});
+			req.on('end',()=>{
+				let os = JSON.parse(body);
+				console.log(os);
+				result={
+					__comment:"Ответ.",
+					x_plus_y:os.x+os.y,
+					Concatination_s_o:os.s+'.'+os.o.surname+","+os.o.name,
+					Length_m:os.m.length
+				};
+				res.writeHead(200,{'Content-Type': 'application/json'});
+				console.log(result);
+				res.end(JSON.stringify(result));
+			});
+			}
+    }
+}
+http.createServer(function (req, res){http_handler(req,res);
+}).listen(5000);
+client.js
+var http =require('http');
+let parms=JSON.stringify(
+    {
+        "__comment": "Запрос.",
+        "x": 1,
+        "y": 2,
+        "s": "Сообщение",
+        "m": ["a","b","c","d"],
+        "o": {"surname":"Антонович","name":"Таня"}
+    }
+);
+
+let options= {
+    host: 'localhost',
+    path: `/JSON`,
+    port: 5000,
+    method:'POST',
+    headers:{'content-type':'application/json', 'accept':'application/json'}
+}
+const req = http.request(options,(res)=> {
+    console.log('statusCode: ',res.statusCode);
+    let data = '';
+    res.on('data',(chunk) => { data+=chunk.toString('utf-8') });
+    res.on('end',()=>{console.log(JSON.parse(data))}); 
+});
+req.on('error', (e)=> {console.log('http.request: error:', e.message);});
+req.write(parms);
+req.end();
+ 
+Разработка HTTP-клиента в Node.js.  Пересылка файла на сервер в POST-запросе (upload).   Пример. Тестирование с помощью с Node.js-сервера.
+server.js
+const http = require('http');
+
+http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-Type':'text/html, charset=utf-8'});
+    req.on('data', (chunk) => {
+        res.write(chunk.toString('utf-8'));
+    });
+    req.on('end', () => {
+        res.end();
+    });
+}).listen(3000);
+
+console.log('Server running on http://localhost:3000/');
+client.js
+const http = require('http');
+const fs = require('fs');
+
+let bound = 'mys';
+let body = `--${bound}\r\n`; //тправка частями эта и еще 2 строки и в headers указано тип это (это не точная инфа, еще чета должно быть для этого or no)
+body += 'Content-Disposition: form-data; name="file"; filename="MyFile.txt"\r\n';
+body += 'Content-Type: text/plain\r\n\r\n';
+body += fs.readFileSync('./MyFile.txt');
+body += `\r\n--${bound}--\r\n`;
+
+let options = {
+    host: 'localhost',
+    path: '/mypath',
+    port: 3000,
+    method: 'POST',
+    headers: {
+        'Content-Type': 'multipart/form-data; boundary=' + bound
+    }
+};
+
+const req = http.request(options, (res) => {
+    console.log('http.request: statusCode: ', res.statusCode);
+
+    let data = '';
+
+    res.on('data', (chunk) => {
+        console.log('http.request: data: body: ', data += chunk.toString('utf8'));
+    });
+
+    res.on('end', () => {
+        console.log('http.request: end: body: ', data);
+    });
+});
+
+req.on('error', (err) => {
+    console.log('http.request: error: ', err.message);
+});
+
+req.end(body);
+MyFile.txt
+
+1.	Разработка HTTP-клиента в Node.js. Обработка ответа с файлом (download). Пример. Тестирование с помощью с Node.js-сервера.   
+server.js
+const http = require('http');
+
+http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-Type':'text/html, charset=utf-8'});
+    req.on('data', (chunk) => {
+        res.write(chunk.toString('utf-8'));
+    });
+    req.on('end', () => {
+        res.end();
+    });
+}).listen(3000);
+
+console.log('Server running on http://localhost:3000/');
+client.js
+const http = require('http');
+const fs = require('fs');
+
+const file = fs.createWriteStream('./MyFile.txt');
+
+let options = {
+    host: 'localhost',
+    path: '/MyFile.txt',
+    port: 3000,
+    method: 'GET',
+};
+
+const req = http.request(options, (res) => {
+    res.pipe(file);
+});
+
+req.on('error', (err) => {
+    console.log('http.request: error: ', err.message);
+});
+
+req.end();
+MyFile.txt
+
+1.	Разработка Websockets-приложения: Node.js-сервер, браузер-клиент. Пример.
+index.js
+const Websocket = require('ws');
+let http = require('http');
+let fs = require('fs');
+let k = 0;
+
+//html
+http.createServer((req, res)=>{
+    if(req.method == 'GET' && req.url == '/start'){
+        res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
+        res.end(fs.readFileSync('./28html.html'));
+    }
+}).listen(3000);
+console.log('ws server: 3000');
+
+//сервер
+const wsserver = new Websocket.Server({port: 5000, host: 'localhost', path:'/wsserver'})
+wsserver.on('connection', (ws)=>{
+    ws.on('message', message =>{
+        console.log(`Message = > ${message} `)
+    })
+})
+wsserver.on('error', (e)=> {console.log('ws server error', e)});
+console.log(`ws server host: ${wsserver.options.host}, port: ${wsserver.options.port}, path: ${wsserver.options.path} `);
+
+//браузер
+//http://localhost:3000/start
+index.html
+<body>
+    <h1>WebSocket Example</h1>
+<script>
+    let k = 0;
+    function startWS(){
+        let socket = new WebSocket('ws:/localhost:5000/wsserver');
+        socket.onopen = ()=>{
+            let int1 = setInterval(()=>{socket.send(++k);}, 1000);
+            setTimeout(()=>{clearInterval(int1)}, 5000);
+        };
+        socket.onerror = function(error) {alert ("Ошибка" + error.message);};
+    };
+</script>
+<button onclick="startWS()">startWS</button>
+</body>
+
+Разработка Websockets-приложения:  обработка json-сообщений, Node.js-сервер, Node.js-клиент. Пример.
+server.js
+const WebSocket = require('ws');
+const wssPORT = 3000;
+
+const wss = new WebSocket.Server({ port: wssPORT, host: 'localhost' });
+let n = 0;
+
+wss.on('connection', (ws) => {
+    ws.on('message', (data) => {
+        let pdata = JSON.parse(data);
+        console.log('on message: ', pdata);
+        ws.send(JSON.stringify({ server: ++n, client: pdata.client, timestamp: pdata.timestamp }));
+    });
+});
+
+wss.on('error', (e) => { console.log('wss server error ', e); });
+client.js
+const WebSocket = require('ws');
+const ws = new WebSocket('ws://localhost:3000/');
+
+ws.on('open', () => {
+    ws.on('message', (data) => {
+        console.log('on message: ', JSON.parse(data));
+    });
+
+    setInterval(() => {
+        ws.send(JSON.stringify({ client: process.argv[2], timestamp: new Date().toISOString() }));
+    }, 5000);
+});
+
+Разработка  RPC-Websockets-сервера. Пример. Тестирование:  Node.js-клиент. 
+server.js
+const rpcWSS = require('rpc-websockets').Server;
+
+let server = new rpcWSS({ port: 4000, host: 'localhost' });
+
+server.register('square', square).public();
+server.register('sum', params => params.reduce((a, b) => a + b, 0)).public();
+server.register('mul', params => params.reduce((a, b) => a * b, 1)).public();
+
+function square(args) {
+    if (args.length === 1) {
+        return Math.PI * args[0] * args[0];
+    } else if (args.length === 2) {
+        return args[0] * args[1];
+    } else {
+        return 0;
+    }
+}
+client.js
+const rpcWSC = WebSocket = require('rpc-websockets').Client;
+
+let ws = new rpcWSC('ws://localhost:4000/');
+
+ws.on('open', () => {
+    ws.call('square', [5, 4]).then((r) => {
+        console.log('square = ', r);
+    });
+    ws.call('sum', [2, 4, 6, 8, 10]).then((r) => {
+        console.log('sum = ', r);
+    });
+    ws.call('mul', [3, 5, 7, 9, 11, 13]).then((r) => {
+        console.log('mul = ', r);
+    });
+});
+
+1.	Применение функции pipe для обработки данных (файла) файловой системы  и записи в http-ответ. Пример.
+index.js
+var fs = require('fs');
+
+const server = require('http').createServer((req,res)=>{
+    if(req.method == "GET"){
+        res.writeHead(200,{'Content_type': 'text/html; charset=utf-8'});
+        require('fs').createReadStream('./File1.txt').pipe(res);
+    }
+    if(req.method == "POST"){
+        res.writeHead(200,{'Content_type': 'text/html; charset=utf-8'});
+        req.pipe(process.stdout);
+        res.end();
+    }
+});
+server.listen(3000);
+//Pipe - это канал, который связывает поток для чтения и поток для записи и позволяет сразу считать из потока чтения в поток записи.
+// Для чего они нужны? Возьмем, к примеру проблему копирования данных из одного файла в другой.
+//У потока чтения вызывается метод pipe(), в который передается поток для записи.
+MyFile.txt
+
+1.	Разработка приложения, выполняющего запрос к SQL-базе данных: выполнение динамического SELECT-запроса(лабораторная работа).
+2.	Разработка приложения, выполняющего запрос к SQL-базе данных: выполнение динамического INSERT-запроса. Пример(лабораторная работа).
+3.	Разработка приложения, выполняющего запрос к SQL-базе данных: выполнение динамического UPDATE-запроса. Пример(лабораторная работа).
+4.	Разработка приложения, выполняющего запрос к SQL-базе данных: выполнение динамического DELETE-запроса. Пример.
+
+2ый вопрос в билете
+Применение СУБД Redis. Основные принципы работы. Пример (лабораторная работа).
+Redis - oSQL СУБД с открытым кодом: 
+-	хранилище данных в оперативной памяти;
+-	для кэша;
+-	для посредника сообщений;
+-	структуры данных: строки, хэш-таблицы, списки, наборы, отсортированные наборы, растровые изображения, геопространственные индексы, HyperLogLog;
+-	СУБД ориентирована на быстрое выполнение атомарных операций; 
+-	механизм снимков для асинхронного сохранения (с потерями);
+-	механизм упреждающей записи;   
+-	API: C, C++, C#, Java, JavaScript, Python, … ; 
+-	работает только под Linux.
+- Если сервер откажет между двумя синхронизациями с диском — вы потеряете всё что сидело в памяти.
+
+HyperLogLog - это алгоритм для задачи, связанной с подсчетом, аппроксимирующей количество различных элементов в мультимножестве. Для вычисления точного количества элементов мультимножества требуется объем памяти, пропорциональный количеству элементов, что нецелесообразно для очень больших наборов данных.
+
+Применение пакета Sequelize. Основные принципы работы. Пример (лабораторная работа).
+ORM: Object-Relational Mapping  - технология программирования, которая позволяет работать с SQL-базой данных, как с набором программных объектов. 
+
+Mapping: база данных – объект contextDB, таблица – коллекция объектов, строка в таблице – объект, структура таблицы – класс.    
+
+Sequelize - это ORM-библиотека для приложений на Node.js, которая осуществляет сопоставление таблиц в бд и отношений между ними с классами. При использовании Sequelize мы можем не писать SQL-запросы, а работать с данными как с обычными объектами. Причем Sequelize может работать с рядом СУБД - MySQL, Postgres, MariaDB, SQLite, MS SQL Server.
+
+1.	Пакет Express. Основные принципы работы. Middleware-код. Пример.
+Запросы:
+Когда Express получает запрос, этот запрос передается в конвейер обработки. Конвейер состоит из набора компонентов или middleware, которые получают данные запроса и решают, как его обрабатывать. При необходимости мы можем встроить в конвейер обработки запроса на любом этапе любую функцию middleware. Для этого применяется метод app.use(). Функция, которая передается в app.use(), принимает три параметра:
+    request: данные запроса
+    response: объект для управления ответом
+    next: следующая в конвейере обработки функция
+Каждая из функций middleware просто выводит на консоль сообщение и в конце вызывает следующую функцию с помощью вызова next().Однако необязательно вызывать все последующие middleware, мы можем на каком-то этапе остановить обработку. Функции middleware также могут сопоставляться с определенными маршрутами. app.use("/about", function(request, response, next){}); В данном случае вторая функция middleware явно сопоставляется с маршрутом "/about", поэтому она будет обрабатывать только запрос "http://localhost:3000/about".
+Middleware помогают выполнять некоторые задачи, которые должны быть сделаны до отправки ответа. Стандартная задача - логгирование запросов.
+Ответы:
+Для отправки ответа в express у объекта response можно использовать ряд функций. Самый распространенный способ отправки ответа представляет функция send()( response.send("<h2>Hello</h2>");), файлы отправлять с помощью функции sendFile()(response.sendFile(__dirname + "/index.html");). Функция sendStatus() отправляет пользователю определенный статусный код с некоторым сообщением по умолчанию.( response.sendStatus(404)).  Но, возможно, мы захотим отправлять какие-то свои более информативные сообщения. В этом случае можно использовать комбинацию функции status(), которая также отправляет статусный код, и функции send()( response.status(404).send(`Ресурс не найден`);).
+
+index.js
+const express = require("express");
+
+const app = express();
+app.use(function(request, response, next){
+
+    console.log("Middleware 1");
+    next();
+});
+app.use("/about", function(request, response, next){
+
+    console.log("About Middleware");
+    response.send("About Middleware");
+});
+
+app.get("/", function(request, response){
+    console.log("Route /");
+    response.send("Hello");
+});
+app.listen(3000);
+
+//В данном случае вторая функция middleware явно сопоставляется с маршрутом "/about",
+// поэтому она будет обрабатывать только запрос "http://localhost:3000/about". Первая функция middleware по прежнему обрабатывает все запросы:
+
+Пакет Express. Основные принципы работы. Маршрутизация. Пример.
+При обработке запросов Express опирается на систему маршрутизации. В приложении определяются маршруты, а также обработчики этих маршрутов. Если запрос соответствует определенному маршруту, то вызывается для обработки запроса соответствующий обработчик.
+Для обработки данных по определенному маршруту можно использовать ряд функций, в частности:
+    use get post put delete
+В качестве первого параметра эти функции могут принимать шаблон адреса, запрос по которому будет обрабатываться. Второй параметр функций представляет функцию, которая будет обрабатывать запрос по совпавшему с шаблоном адресу. Когда приходит запрос Express сопоставляет запрошенный адрес с каждым из маршрутов. Затем выбирается первый совпавший маршрут. При совпадении маршрута вызывается его функция обработчика.
+Символы подстановок
+Используемые шаблоны адресов могут содержать регулярные выражения или специальные символы подстановок. В частности, мы можем использовать такие символы, как ?, +, * и ().
+К примеру, символ ? указывает, что предыдущий символ может встречаться 1 раз или отсутствовать. И мы можем определить следующую функцию:	
+Символ + указывает, что предыдущий символ может встречаться 1 и более раз:	
+Символ звездочка * указывает, что на месте данного символа может находиться любое количество символов:
+Скобки () позволяют оформить группу символов, которые могут встречаться в запросе.
+index.js
+const express = require("express");
+const app = express();
+
+// обработка запроса по адресу /about
+app.get("/about", function(request, response){
+
+    response.send("<h1>About</h1>");
+});
+
+// обработка запроса по адресу /contact
+app.use("/contact", function(request, response){
+
+    response.send("<h1>Contact: +375299889157</h1>");
+});
+
+// обработка запроса к корню веб-сайта
+app.get("/", function(request, response){
+
+    response.send("<h1>Главная страница</h1>");
+});
+app.listen(3000);
+
+//use get post put delete
+
+Пакет Express. Основные принципы работы. Статические файлы. Пример.
+Статические файлы: файлы расположенные на стороне сервера и предназначенные для считывания их без изменения с помощью HTTP GET-запроса по имени ресурса, включающего имя файла. Пример: <link>, <script>, <img>, <audio>, <video>.
+Для работы со статическими файлами в Express определен специальный компонент express.static(), который указывает на каталог с файлами.(у нас есть каталог public, в котором about.html Чтобы встроить компонент express.static в процесс обработки запроса, вызывается функция app.use(). Эта функция позволяет добавлять различные компоненты, которые еще называются middleware, в конвейер обработки запроса: app.use(express.static(__dirname + "/public"));  В саму же функцию express.static() передается путь к папке со статическими файлами. Специальное выражение __dirname позволяет получить полный путь к папке. апустим приложение на выполнение и обратимся в браузере по пути "http://localhost:3000/about.html")
+Следует отметить, что для обращения к файлу мы указываем только имя файла без названия каталога public. Также не следует путать подобное обращение к файлам с действием функции sendFile: в данном случае мы напрямую обращаемся к статическим файлам, а функция sendFile фактически берет содержимое из файла и отсылает его пользователю.
+index.js
+const express = require("express");
+
+const app = express();
+
+app.use(express.static(__dirname + "/public"));
+
+app.use("/", function(request, response){
+
+    response.send("<h1>Главная страница</h1>");
+});
+
+app.listen(3000);
+//http://localhost:3000/ind.html
+//Чтобы встроить компонент express.static в процесс обработки запроса, вызывается функция app.use().
+// Эта функция позволяет добавлять различные компоненты, которые еще называются middleware, в конвейер обработки запроса:
+//Причем данный вызов помещается до всех остальных вызовов функции app.get().
+// В саму же функцию express.static() передается путь к папке со статическими файлами. Специальное выражение __dirname позволяет получить полный путь к папке.
+public/ind.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<h1>Aloha:)</h1>
+</body>
+<html>
+
+Пакет Express. Основные принципы работы. Обработка query-параметров GET-запроса. Пример (POSTMAN).
+Одним из способов передачи данных в приложение представляет использование параметров строки запроса. Строка запроса (query) - фактически это часть запрошенного адреса, которая идет после знака вопроса. Например, в запросе http://localhost:3000/about?id=3&name=Tome часть id=3&name=Tome представляет строку запроса.
+Строку запроса образуют параметры. После названия каждого параметра после знака равно (=) идет его значение. Друг от друга параметры отделяются знаком амперсанда. Например, в адресе выше использовалось два параметра: параметр "id" имеет значение "3" и параметр "name" имеет значение "Tom".
+В express мы можем получить параметра строки запроса через свойство query объекта request, который передается в функцию обработки запроса. Например:
+app.use("/about", function(request, response){ 
+    let id = request.query.id;
+    let userName = request.query.name;
+    response.send("<h1>Информация</h1><p>id=" + id +"</p><p>name=" + userName + "</p>");});
+С помощью выражения request.query мы можем получить все параметры строки запрос в виде объекта javascript, а с помощью выражения request.query.название_параметра мы можем обратиться к каждому отдельному параметру.
+index.js
+const express = require("express");
+
+const app = express();
+app.get("/", function(request, response){
+
+    response.send("<h1>Главная страница</h1>");
+});
+app.use("/about", function(request, response){
+
+    let id = request.query.id;
+    let userName = request.query.name;
+    response.send("<h1>Информация</h1><p>id=" + id +"</p><p>name=" + userName + "</p>");
+});
+
+app.listen(3000);
+//http://localhost:3000/about?id=3&name=Tonya
+
+Пакет Express. Основные принципы работы. Обработка uri-параметров запроса. Пример (POSTMAN).
+Параметры маршрута представляют именованные сегменты URL-адреса. Не стоит их путать с параметрами строки запроса. Здесь параметры строки запроса - это то, что идет после вопросительного знака - id=3&name=Tome. Остальная часть, которая идет до вопросительного знака может содержать параметры маршрута.В определении маршрута параметры предваряются знаком двоеточия:
+app.get("/products/:productId", function (request, response) {
+  response.send("productId: " + request.params["productId"])
+});
+В данном случае параметр называется "productId". Через коллекцию request.params можно получить все параметры и, в частности, значение параметра productId.Если нам потребуется передать для этого параметра значение, то оно указывается в качестве последнего сегмента в строке запроса.
+index.js
+const express = require("express");
+const app = express();
+
+app.get("/student/:studentId", function (request, response) {
+    response.send("studentId: " + request.params["studentId"])
+});
+
+app.get("/faculty/:facultyId/student/:studentId", function (request, response) {
+    let catId = request.params["facultyId"];
+    let prodId = request.params["studentId"];
+    response.send(`Faculty: ${catId}  Student: ${prodId}`);
+});
+
+app.listen(3000);
+//http://localhost:3000/student/78
+//В данном случае параметр называется "productId". Через коллекцию request.params можно получить все параметры и, в частности, значение параметра productId.
+
+1.	Пакет Express. Основные принципы работы. Обработка body-параметров POST-запроса. Пример (POSTMAN).
+index.js
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+// создаем парсер для данных application/x-www-form-urlencoded
+const urlencodedParser = bodyParser.urlencoded({extended: false});
+
+app.get("/regist", urlencodedParser, function (request, response) {
+    response.sendFile(__dirname + "/regist.html");
+});
+app.post("/regist", urlencodedParser, function (request, response) {
+    if(!request.body) return response.sendStatus(400);
+    console.log(request.body);
+    response.send(`${request.body.userName} - ${request.body.userAge}`);
+});
+
+app.get("/", function(request, response){
+    response.send("Главная страница");
+});
+
+app.listen(3000);
+
+//Поскольку данные отправляются с помощью формы, то для создания парсера применяется функция urlencoded(). В эту функцию передается объект, устанавливающий параметры парсинга.
+// Значение extended: false указывает, что объект - результат парсинга будет представлять набор пар ключ-значение, а каждое значение может быть представлено в виде строки или массива.
+// При переходе по адресу "/register" будет срабатывать метод app.get, который отправит пользователю файл register.html.
+// Так как данные отправляются с помощью метода POST, то для обработки определяем функцию app.post("/register",...). Первый параметр функции - адрес, на который идет отправка - "/register".
+// Стоит отметить, что в данном случае с одинм адресом "/register" связаны две функции, только одна обрабатывает запросы get, а другая - запросы post. Второй параметр - выше созданный парсер.
+// Третий параметр - обработчик:
+regist.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<h1>Введите данные</h1>
+<form action="/regist" method="post">
+    <label>Имя</label><br>
+<!--    //Для получения самих отправленных данных используем выражения типа request.body.userName, где request.body инкапсулирует данные формы, а userName - ключ данных, -->
+<!--    который соответствует значению атрибута name поля ввода на html-странице:-->
+    <input type="text" name="userName" /><br><br>
+    <label>Возраст</label><br>
+    <input type="number" name="userAge" /><br><br>
+    <input type="submit" value="Отправить" />
+</form>
+</body>
+</html>
+
+1.	Пакет Express. Основные принципы работы. Обработка json-данных POST-запроса. Пример (POSTMAN).
+index.js
+const express = require('express');
+const app = require('express')();
+
+app.use(express.json()) //body-parser
+
+app.post('/json', (req, res, next) => {
+    if(req.body){
+        if (req.accepts('json')) res.type('json').send(JSON.stringify(Object.assign({src:'server'}, req.body)));
+        else
+            res.type('txt').send('server');
+    }
+    else res.status(400).type('txt').send('no bodyparser');
+});
+
+app.listen(3000);
+
+1.	Пакет Express. Основные принципы работы. Обработка xml-данных POST-запроса. Пример (POSTMAN).
+2.	Пакет Express. Основные принципы работы. download/attachment файлы GET-запроса. Пример (браузер).
+index.js
+const fs = require('fs');
+const app = require('express')();
+
+    app.get('/download', (req, res, next)=> {
+        console.log('download');
+        res.download('./file.png', 'file.png');
+    })
+
+app.get('/attachment', (req, res, next)=> {
+    console.log('attachment');
+    res.attachment('./file.png'); //добавить заголовок
+    let rs = fs.ReadStream('./file.png');
+    rs.pipe(res);
+})
+
+app.listen(3000);
+
+1.	Пакет Express. Основные принципы работы. upload файла в POST-запросе. Пример (браузер).
+2.	Пакет Express. Основные принципы работы. Обработка Cookie. Signed cookie. Пример(POSTMAN).
+Cookie: фрагмент данных, оправленный web-сервером и хранимый web-клиентом. Используется для аутентификации,  хранения пользовательских предпочтений, статистики, информации о сеансе  (обычно Session ID). Обычно имеет имя, содержащее URL, может иметь срок действия.  Для создания и пересылки Cookie применяются заголовки.(RFC 6265: стандарт описывающий механизм Cookie.)  
+Cookie:
+	опция domain – привязка cookie к поддомену.
+	опция path – путь, на который распространяется действие cookie.	
+	опция maxAge – время жизни cookie в миллисекундах.
+	опция Expires – дата истечения жизни cookie.  	опция secure – может применяться только с HTTPS.
+	опция httpOnly = true – может изменяться сервером.
+index.js
+const express = require('express');
+const app = express();
+const cookieparser = require('cookie-parser')();
+
+app.use(cookieparser);
+
+app.get('/', (req, res, next)=>{
+    let myid = req.cookies.myid;
+
+    if (isFinite(myid)) ++myid;
+    else myid = 0;
+
+    console.log('cookies', req.cookies);
+    res.cookie('myid', myid).send( `myid = ${myid}`);
+});
+
+app.listen(3000, () =>console.log('Start server port: ', 3000));
+
+//signed cookie
+const express = require('express');
+const app = express();
+const cookieparser = require('cookie-parser');
+
+const cookiesecret = '1234567890';
+
+app.use(cookieparser(cookiesecret));
+
+app.get('/', (req, res, next)=>{
+    let myid = req.signedCookies.myid;
+
+    if (isFinite(myid)) ++myid;
+    else myid = 0;
+
+    console.log('myid = ', myid);
+    res.cookie('myid', myid, {signed:true}).send( `myid = ${myid}`);
+});
+
+app.listen(3000, () =>console.log('Start server port: ', 3000));
+
+Пакет Express. Основные принципы работы. Применение объекта Session для сохранение состояния. Пример (POSTMAN).
+Session: серверный объект, хранящий информацию о соединении с клиентом, создается при первом обращении  время жизни: timeout (системный параметр, обычно равен 10 – 30 минутам) – максимальное время между запросами клиента. Если  timeout превышен, то Session разрушается и при следующем запросе создается новый экземпляр. Каждая сессия имеет собственный идентификатор (Session ID, 16 или более байт). Каждый Request принадлежит, какой-то сессии (имеет ссылку на объект Session или содержит Session ID). Обычно объект Session предоставляет  приложению возможность хранить данные в формате ключ/значение.
+index.js
+const app = require('express')();
+const cookiesecret = '123';
+const session = require('express-session')({
+    resave: false, //сохр даже если нет изм
+    saveUnitialized: false, //сохр даже если нет изм
+    secret: cookiesecret //если шифровать
+});
+
+app.use(session);
+
+app.get('/', (req,res, next) =>{
+    if(!isFinite(req.session.mysesval)) req.session.mysesval = 0;
+    else req.session.mysesval++;
+    console.log('mysesval = ', req.session.mysesval);
+    res.send(`mysesval = ${req.session.mysesval}`);
+});
+
+app.listen(3000, ()=>console.log('Start server, port', 3000));
+
+Пакет Express. Основные принципы работы. Переадресация. Пример(POSTMAN).
+Для переадресации применяется метод redirect(): edirect([status,] path). В качестве параметра path передается путь, на который будет перенаправляться пользователь. Дополнительный параметр status задает статусный код переадресации. Если этот параметр не задан, тогда по умолчанию отправляется статусный код 302, который предполагает временную переадресацию. С помощью данного метода можно выполнять переадресацию как по относительным путям, так и по абсолютным, в том числе на другие домены.
+Переадресация по абсолютному пути:
+app.use("/index",function (request, response) {
+  response.redirect("https://metanit.com")
+});
+Переадресация по оносительным путям также не очень сложна, но здесь важно учитывать, как именно определяется адрес для редиректа. Рассмотрим редирект относительно текущего пути, с которого производится редирект.
+app.use("/home",function (request, response) {
+  response.redirect("about")
+});
+app.use("/about", function (request, response) {
+  response.send("<h1>About</h1>");
+});
+В данном случае будет идти перенаправление с ресурса "/home" на ресурс "/about", то есть, условно говоря, с http://localhost:3000/home на http://localhost:3000/about.
+Если нам необходимо выполнить переадресацию не относительно текущего ресурса, а относительно корневого каталога приложения, то в начале адреса ставится слеш.
+index.js\
+const express = require("express");
+const app = express();
+
+app.get("/index",function (request, response) {
+    response.redirect("https://metanit.com")
+});
+
+app.use("/home",function (request, response) {
+    response.redirect("about")
+});
+app.use("/about", function (request, response) {
+    response.send("<h1>About</h1>");
+});
+
+
+app.listen(3000);
+
+1.	Пакет Express. Основные принципы работы. Выполнение shell-команд (spawn, pipe). Пример.
+index.js
+const spawn = require('child_process').spawn;
+const dir = spawn('cmd.exe', ['/C', 'dir']);
+const findstr = spawn('findStr', ['/c:ind']);
+
+dir.stdout.pipe(findstr.stdin);
+
+dir.stdout.on('data', function (data) {console.log('dir stdout: ' + data.toString());});
+dir.on('close', function (code, signal) {console.log('dir close code ' + code);});
+
+findstr.stdout.on('data', function (data) {console.log('findstr stdout: ' + data.toString());});
+findstr.on('close', function (code, signal) {console.log('findstr close code ' + code);});
+
+
+//Метод child_process.spawn запускает новый процесс с помощью заданной командой
+//Метод spawn() возвращает потоки (stdout & stderr), он должен использоваться, когда процесс возвращает большой объем данных.
+// spawn() начинает принимать ответ, сразу после начала выполнения процесса.
+
+//Pipe - это канал, который связывает поток для чтения и поток для записи и позволяет сразу считать из потока чтения в поток записи.
+
+1.	Пакет Express. Основные принципы работы. Запуск процесса операционной системы (exec), работа со стандартными потоками ввода/вывода.  Пример.
+master.js
+const fs = require('fs');
+const child_process = require('child_process');
+
+for(var i=0; i<3; i++) {
+    var workerProcess = child_process.exec('node support.js '+i,function
+        (error, stdout, stderr) {
+
+        if (error) {
+            console.log('Error code: '+error.code);
+        }
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+    });
+
+    workerProcess.on('exit', function (code) {
+        console.log('Child process exited with exit code '+code);
+    });
+}
+
+//Метод child_process.exec запускает команду в оболочке и буферизирует вывод.
+//command (String) — команда для запуска с аргументами, разделенными пробелом
+//callback — функция принимает три аргумента error , stdout и stderr, которые вызываются с выходными данными при завершении процесса.
+//
+// Метод exec() возвращает буфер с максимальным размером и ожидает завершения процесса, после чего пытается сразу вернуть все буферизованные данные.
+//
+//Теперь запустите master.js
+support.js
+console.log("Child Process " + process.argv[2] + " executed." );
+
+1.	Пакет Express. Основные принципы работы. Выполнение js-скриптов в отдельном процессе (fork, send, worker). Пример.
+master.js
+// //fork, send, worker
+// const child = require('child_process');
+// const fp = child.fork('support.js');
+//
+// const f = ()=>{console.log('lala');}
+// setInterval(f,3000);
+//
+// let x = 0;
+// const s = ()=>{fp.send(`from la: ${++x}`)};
+// setInterval(s,6000);
+
+//Метод child_process.fork является особым случаем spawn() для создания процессов Node.
+//modulePath (String) — Модуль для запуска в дочернем элементе.
+//args (Array) — Список аргументов строки
+//В дополнение к тому, что он содержит все методы, что и стандартный экземпляр дочернего процесса, метод fork возвращает объект со встроенным каналом связи.
+
+//Метод spawn() возвращает потоки (stdout & stderr), он должен использоваться, когда процесс возвращает большой объем данных.
+// spawn() начинает принимать ответ, сразу после начала выполнения процесса.
+
+//Метод child_process.fork() является частным случаем child_process.spawn(), который используется определенно для создания новых процессов Node.js. Подобно child_process.spawn(),
+// в итоге возвращается объект ChildProcess. Возвращаемый ChildProcess имеет дополнительные каналы связи, которые позволяют сообщениям передаваться по обоим направлениям (вперед-назад)
+// между родительским и дочерним процессом.
+// Важно иметь в виду, что созданные дочерние процессы в Node.js являются независимыми от родительских, за исключением канала связи IPC, который устанавливается между ними.
+// Каждый процесс имеет собственную память, с собственными экземплярами V8. Из-за требований к дополнительному выделению ресурсов, не рекомендуется создание большого количества дочерних
+// процессов.
+// По умолчанию, child_process.fork() создает новые экземпляры Node.js, используя process.execPath из родительского процесса. Свойство execPath в объекте позволяет использовать
+// альтернативный путь выполнения.
+// Процессы Node.js, зпапускаемые с помощью кастомного execPath сообщаются с родительским процессом через файловый дескриптор (fd), который определяется переменной окружения NODE_CHANELL_FD
+// в дочернем процессе. Входом и выходом в этом дескрипторе являются объекты JSON, разделенные строкой.
+
+//worker
+// для запуска этого кода командой node --experimental-worker master.js
+const { Worker } = require('worker_threads')
+
+function runService(workerData) {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('./service.js', { workerData });
+        worker.on('message', resolve);
+        worker.on('error', reject);
+        worker.on('exit', (code) => {
+            if (code !== 0)
+                reject(new Error(`Worker stopped with exit code ${code}`));
+        })
+    })
+}
+async function run() {
+    const result = await runService('world')
+    console.log(result);
+}
+run().catch(err => console.error(err))
+//Рассмотрим пример работы с потоками воркеров. У нас будет главный файл, index.js, в котором мы создадим поток воркера и передадим ему какие-то данные для обработки.
+// Соответствующий API основан на событиях, но я собираюсь использовать здесь промис, который разрешается при поступлении первого сообщения от воркера
+//при создании воркера нужно передать конструктору Worker путь к файлу с кодом воркера и данные. Помните о том, что эти данные клонируются, а не хранятся в разделяемой памяти. После запуска воркера мы ожидаем сообщения от него, прослушивая событие message.
+// Выше мы, создавая объект типа Worker, передавали конструктору имя файла с кодом воркера — service.js.
+//
+
+support.js
+const child = require('child_process');
+
+const f = ()=>{console.log('xoxo');}
+setInterval(f,6000);
+
+process.on('message', (msg)=>{
+    console.log(msg);
+});
+service.js
+const { workerData, parentPort } = require('worker_threads')
+
+// Тут, асинхронно, не блокируя главный поток,
+// можно выполнять тяжёлые вычисления.
+
+parentPort.postMessage({ hello: workerData })
+
+//Во-первых — нам нужны данные, переданные главным приложением. В нашем случае они представлены переменной workerData.
+// Во-вторых, нам нужен механизм передачи информации главному приложению. Этот механизм представлен объектом parentPort, у
+// которого есть метод postMessage(), пользуясь которым мы передаём главному приложению результаты обработки данных.
+
+1.	Протокол WebDav. Разработка приложения с применением WebDav.  Пример(лабораторная работа).
+WebDav: Web Distributed Authoring and Versioning – расширение протокола HTTP/HTTPS, поддерживающее совместную работу по управление файлами на удаленных web-северах; применяется для  создания сетевой файловой системы; в системах документооборота (document management system).
+Протокол JSON-RPC. Разработка клиент-серверное приложение использующее протокол JSON-RPC. 
+JSON-RPC: протокол удаленного вызова процедур, использующий формат JSON для передачи сообщений
+JSON-RPC: объект запроса
+ 
+JSON-RPC: объект ответа
+ 
+JSON-RPC: объект ответа (ошибка)
+ 
+1.	Разработка клиент-серверного  приложения  с применением технологии WebAssembly на стороне браузера. Пример(WasmFiddle-компиляция).
+WebAssembly – бинарный формат исполняемого  файла, который может исполняться в JavaScript Engine (виртуальная стековая машина). 
+WASM: код быстрее, чем JS; поддерживается большинством браузеров; выполняется в sandbox; есть отладчики; открытый стандарт.   
+index.js
+const app = require('express')();
+
+
+app.get('/part', (req, res) => {
+    res.sendFile('part.html', {root: __dirname});
+});
+
+app.listen(3000);
+
+part.js
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div> sum(1,2) = <span id="sum"></span>
+    </div>
+</div>
+<script>
+    //int sum(int x, int y) { return x+y; }
+    const wasmCode = new Uint8Array([0,97,115,109,1,0,0,0,1,135,128,128,128,0,1,96,2,127,127,1,127,
+        3,130,128,128,128,0,1,0,4,132,128,128,128,0,1,112,0,0,5,131,128,128,128,0,1,0,1,6,129,128,
+        128,128,0,0,7,144,128,128,128,0,2,6,109,101,109,111,114,121,2,0,3,115,117,109,0,0,10,141,128,
+        128,128,0,1,135,128,128,128,0,0,32,1,32,0,106,11]);
+    let wasmModule = new WebAssembly.Module(wasmCode);
+    let wasmInstance = new WebAssembly.Instance(wasmModule, {});
+    sum.innerText = wasmInstance.exports.sum(1,2);
+</script>
+</body>
+</html>
+
+Разработка клиент-серверного  приложения  с применением технологии WebAssembly на стороне сервера Node.js. Пример(WasmFiddle-компиляция).
+WebAssembly – бинарный формат исполняемого  файла, который может исполняться в JavaScript Engine (виртуальная стековая машина). 
+WASM: код быстрее, чем JS; поддерживается большинством браузеров; выполняется в sandbox; есть отладчики; открытый стандарт.   
+index.js
+const app = require('express')();
+
+const wasmCode = new Uint8Array([0,97,115,109,1,0,0,0,1,135,128,128,128,0,1,96,2,127,127,1,127,
+    3,130,128,128,128,0,1,0,4,132,128,128,128,0,1,112,0,0,5,131,128,128,128,0,1,0,1,6,129,128,
+    128,128,0,0,7,144,128,128,128,0,2,6,109,101,109,111,114,121,2,0,3,115,117,109,0,0,10,141,128,
+    128,128,0,1,135,128,128,128,0,0,32,1,32,0,106,11]);
+
+let wasmModule = new WebAssembly.Module(wasmCode);
+let wasmInstance = new WebAssembly.Instance(wasmModule, {});
+
+// app.get('/', (req, res, next) => {
+//     res.type('html').send(
+//         `sum(1,2) = ${wasmInstance.exports.sum(1,2)} <br/>`
+//     );
+// });
+
+console.log( `sum(1,2) = ${wasmInstance.exports.sum(1,2)}`);
+app.listen(3000);
+1.	Long pool–сервер, принцип работы. Пример (Telegram bot, лабораторная работа).
+бот: лонг пул запрос, и как работает (pooling^true это есть лонг пул)
+	(сервер должен обеспечить лонг пул, мы делаем запрос а серверу нечем нам ответить, и сервер как
+	 бы не отвечает заданное наперед время, если есть сразу ответ то сразу отвечает, если нечем
+	 ответить то ждет событие на корое он может ответить, и время которое он ждет- 
+	системный параметр, если нет события то отправляет на клиент что ничего гнет пока, 
+	и он опять отправляет запрос, и такой цикл позволяет получапть инфу что происходит на сервере
+		в логпул важен таймаут который выдерживает сервер до событии, задача лонг пула узнать
+		 что происходит на сервере и он постоянно делает запросы на сервер и ждет событие, но
+		 может оказаться что на сервере нет этого события, поэтому сервер получив  запрос ничего
+		 не отправляет а тоже ждет этого события, после того как клиент получил ответ он делает
+		 опять запрос
+
+3ый вопрос в билете (лабораторные работы)
+⦁	Лабораторная 17 (REDIS).
+⦁	Лабораторная 18 (SEQUELIZE).
+⦁	Лабораторная 19 (REDIS).
+⦁	Лабораторная 20 (HBS).
+⦁	Лабораторная 21 (Basic, Digest, Forms).
+⦁	Лабораторная 22 (HTTPS).
+⦁	Лабораторная 23 (CRYPTO).
+⦁	Лабораторная 24 (WEBDAV).
+⦁	Лабораторная 25 (JSONRPC).
+⦁	Лабораторная 26 (WASM).
+⦁	Лабораторная 27 (TLGBOT).
+
+
+
