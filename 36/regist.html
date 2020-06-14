@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<h1>Введите данные</h1>
+<form action="/regist" method="post">
+    <label>Имя</label><br>
+<!--    //Для получения самих отправленных данных используем выражения типа request.body.userName, где request.body инкапсулирует данные формы, а userName - ключ данных, -->
+<!--    который соответствует значению атрибута name поля ввода на html-странице:-->
+    <input type="text" name="userName" /><br><br>
+    <label>Возраст</label><br>
+    <input type="number" name="userAge" /><br><br>
+    <input type="submit" value="Отправить" />
+</form>
+</body>
+</html>

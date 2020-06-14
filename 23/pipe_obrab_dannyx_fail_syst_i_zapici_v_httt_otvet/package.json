@@ -1,0 +1,12 @@
+{
+  "name": "pipe_obrab_dannyx_zaprosa_i_zapici_v_fail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
